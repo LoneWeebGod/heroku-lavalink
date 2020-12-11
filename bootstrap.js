@@ -21,6 +21,12 @@ const download = function (url, dest, cb) { //modified code from https://stackov
         file.on('finish', function () {
             console.log('Downloaded Lavalink.jar')
             file.close(cb);
+            
+        });
+    }).on('error', function (err) {
+        fs.unlinkSync(dest);
+        console.error(err)
+    });
         });
     })
 };
@@ -47,6 +53,8 @@ function startLavalink() {
     child.on('close', (code) => {
         console.log(`Lavalink exited with code ${code}`);
     });
+    if (process.env.APP_NAME)
+        keepAlive();
 }
 
 
