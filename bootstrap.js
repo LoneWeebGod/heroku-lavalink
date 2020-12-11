@@ -58,5 +58,16 @@ fetch('https://api.github.com/repos/Frederikam/Lavalink/releases/latest')
         download(json.assets[0].browser_download_url, './Lavalink.jar', startLavalink)
     });
 
+function keepAlive() {
+    console.log('Keeping alive.');
 
+    const fetch = require('node-fetch');
+
+    let count = 0;
+    setInterval(() =>
+        fetch(`http://${process.env.APP_NAME}.herokuapp.com/`, { headers: { Authorization: process.env.PASS } })
+            .then(() => console.log(`[${++count}] Kept server alive.`))
+            .catch(() => console.log(`Failed to keep server alive.`))
+        , 5 * 60 * 1000);
+}
 
